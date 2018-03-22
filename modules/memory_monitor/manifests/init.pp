@@ -4,23 +4,28 @@ class memory_monitor ($critical_treshold,$warning_treshold,$email,$relay_user,$r
         ensure => 'installed',
         name => 'vim-enhanced',
     }
+
     package { 'curl':
         ensure => 'installed',
         name => 'curl',
     }
+
     package { 'git':
         ensure => 'installed',
         name => 'git',
     }
+
     package { 'bc':
         ensure => 'installed',
         name => 'bc',
     }
+
     user { 'monitor':
         ensure => 'present',
         shell => '/bin/bash',
         home => '/home/monitor'
     }
+
     file { '/home/monitor':
         ensure => 'directory',
         mode => 0755,
@@ -28,30 +33,37 @@ class memory_monitor ($critical_treshold,$warning_treshold,$email,$relay_user,$r
         group => monitor,
         require => User['monitor'],
     }
+
     file { '/home/monitor/scripts':
         ensure => 'directory',
         require => File['/home/monitor'],
     }
+
     exec { 'retrieve_memory_monitor':
         command => '/usr/bin/wget -q https://raw.githubusercontent.com/cdeocampo/simple-memory-monitor/master/memory_check -O /home/monitor/scripts/memory_check',
         creates => '/home/monitor/scripts/memory_check',
         require => File['/home/monitor/scripts'],
     }
+
     file { '/home/monitor/scripts/memory_check':
         mode => 0755,
         require => Exec["retrieve_memory_monitor"],
     }
+
     file { '/home/monitor/src':
         ensure => 'directory',
     }
+
     file { '/home/monitor/src/my_memory_check':
         ensure => 'link',
         target => '/home/monitor/scripts/memory_check',
         require => File['/home/monitor/scripts/memory_check'],
     }
+
     file { '/etc/environment':
         content =>  "RELAY_USER='$relay_user'\nRELAY_PATH='$relay_path'",
     }
+
     cron { 'memory_check_cron':
         command => "/home/monitor/src/my_memory_check -c $critical_treshold -w $warning_treshold -e \"$email\"",
         user => 'root',
