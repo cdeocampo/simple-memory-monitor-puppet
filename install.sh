@@ -17,3 +17,8 @@ cp -R ~/$DIR_NAME/modules /etc/puppet/
 cp ~/$DIR_NAME/hiera.yaml /etc/puppet/
 mkdir /etc/puppet/hieradata
 touch /etc/puppet/hieradata/common.yaml
+
+# setting timezone to PHT
+cp /etc/localtime /root/old.timezone
+rm -f /etc/localtime
+ln -s /usr/share/zoneinfo/Asia/Manila /etc/localtime
