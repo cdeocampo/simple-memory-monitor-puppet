@@ -12,6 +12,10 @@ class memory_monitor ($critical_treshold,$warning_treshold,$email,$relay_user,$r
         ensure => 'installed',
         name => 'git',
     }
+    package { 'bc':
+        ensure => 'installed',
+        name => 'bc',
+    }
     user { 'monitor':
         ensure => 'present',
         shell => '/bin/bash',
