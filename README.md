@@ -11,5 +11,4 @@
     memory_monitor::relay_user: '<mailgun user>'
     memory_monitor::relay_path: '<mailgun api url>'
     ```
-4. Wait for 5 minutes for hiera to read the changes.
-5. Apply puppet manifest: `puppet apply /etc/puppet/manifests/site.pp`
+4. Apply puppet manifest: `cd /etc/puppet && puppet apply /etc/puppet/manifests/site.pp`
