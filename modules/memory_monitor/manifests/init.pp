@@ -17,6 +17,12 @@ class memory_monitor ($critical_treshold,$warning_treshold,$email,$relay_user,$r
         shell => '/bin/bash',
         home => '/home/monitor'
     }
+    file { '/home/monitor':
+        ensure => 'directory',
+        mode => 0755,
+        owner => monitor,
+        group => monitor,
+    }
     file { '/home/monitor/scripts':
         ensure => 'directory',
     }
